@@ -1,76 +1,88 @@
 {% extends 'base.html' %}
-    
-    {% load static %}
-    
-    {% block stylecontent %}
-    <style>
-        body {
-            background-color: aliceblue;
-        }
-        h2 {
-            font-family: 'Slabo 27px';
-            border-bottom: 1px solid black;
-            font-weight: 900;
-        }
-        #page_name {
-            font-size: 25;
-        }
-        
-        #details_box {
-            font-size: 23;
-            top: 50px;
-            left: 30px;
-        }
-        
-        #details_table {
-            font-size: 20;
-            position: relative;
-            align-items: center;
-        }
-        
-        #edit_details {
-            top: 10px;
-            left: 20px;
-        }
-        
-        #edit_button {
-            border: none;
-            color: black;
-            padding: 5px 7px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 2px 1px;
-            cursor: pointer;
-        }
-    </style>
-    
-    
-   
+
+{% load static %}
+
+{% block stylecontent %}
+<style>
+    body {
+        background-color: aliceblue;
+    }
+
+    h2 {
+        font-family: 'Slabo 27px';
+        border-bottom: 1px solid black;
+        font-weight: 900;
+    }
+
+    #page_name {
+        font-size: 25;
+    }
+
+    #details_box {
+        font-size: 23;
+        top: 50px;
+        left: 30px;
+    }
+
+    #details_table {
+        font-size: 20;
+        position: relative;
+        align-items: center;
+    }
+
+    #edit_details {
+        top: 10px;
+        left: 20px;
+    }
+
+    #edit_button {
+        border: none;
+        color: black;
+        padding: 5px 7px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 2px 1px;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% block bodycontent %}
+
 <body>
-    {% block bodycontent %}
-    <table width=100% height=60% align="centre">
+
+    <table class="container w-75" width=100% height=60% align="centre">
         <tr>
 
             <td>
-
                 <div id="page_name" style="float:left;">
                     <font color="#3399ff">Transfer</font>
                 </div>
             </td>
+
+            <td></td>
+
             <td>
                 <div id="edit_details" style="float:right;">
                     <button type="button" id="edit_button"><a href="{% url 'profiles:dashboard' %}">Home</a></button>
                 </div>
             </td>
+
         </tr>
         <tr>
-            <td></td>
+            <td>
+                <div style="float:left;"></div>
+            </td>
+            <td>
+                <div style="float:left;"></div>
+            </td>
+
 
             <td>
 
-                <div id="details_box">
+                <div style="float:right;padding-left:19%" class="container" id="details_box">
                     <form name="transfer_details">
                         <table id="details_table" cellpadding=5px;>
 
@@ -80,7 +92,8 @@
                             </tr>
                             <tr>
                                 <td> From account :</td>
-                                <td><input type="text" name="acc_no" placeholder="Account number"></td>
+                                <td><input value={{ acccno }} type="text" name="acc_no" placeholder="Account number">
+                                </td>
                             </tr>
                             <tr>
                                 <td>Amount to be transferred :</td>
@@ -96,6 +109,6 @@
             </td>
         </tr>
     </table>
-    {%endblock%}
-</body>
 
+</body>
+{%endblock%}

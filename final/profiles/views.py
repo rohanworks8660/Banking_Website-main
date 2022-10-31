@@ -1,21 +1,16 @@
 # sys.path defines paths from which imports can be made
 
-
-
 from sqlalchemy import null
 from profiles.models import Customer_Data, Account_Data, Transactions, ECS_Data, Bills
-
-
 from django.http import HttpResponse
 import random
 from django.shortcuts import render, redirect
 import sys
 import os
 
-print(os.getcwd())
+#print(os.getcwd())
 sys.path.append(os.getcwd()+'/profiles/utils')
 import Classes
-
 
 cur_customer = None  # Stores customer obj
 
@@ -23,9 +18,10 @@ cur_customer = None  # Stores customer obj
 # Create your views here.
 
 
-def randomGen():
-    # return a 6 digit random number
+
+def randomGen():                                        # return a 6 digit random number
     return int(random.uniform(100000, 999999))
+
 
 
 def display_menu(request):
@@ -45,16 +41,14 @@ def display_menu(request):
             user_log_in, user_log_in.username, '9999999999', 'saa@gmail.com')
     print("Customer name:", customer.customer_data.Name)
     cur_customer = customer
-    return render(request, 'profiles/user_account.html',
-                  {'customer': customer})
+    return render(request, 'profiles/user_account.html', {'customer': customer})
 
 
 def account_management(request):
     accounts = cur_customer.accounts
     user_accnos = list(accounts.keys())
     print("user_accnos", user_accnos)
-    return render(request, 'profiles/account_details.html',
-                  {'customer': cur_customer, 'accounts': accounts, 'can_close_accnos': user_accnos})
+    return render(request, 'profiles/account_details.html', {'customer': cur_customer, 'accounts': accounts, 'can_close_accnos': user_accnos})
 
 
 def withdraw(request):
@@ -85,7 +79,7 @@ def withdraw(request):
 
         else:
             msg = "<p>Invalid account number</p><br>"
-    return render(request, 'profiles/withdraw.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg, 'accnnnnno':accnnnnno})
+    return render(request, 'profiles/withdraw.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg, 'accnnnnno': accnnnnno})
     # 'customer':cur_customer, 'accounts':accounts
 
 
@@ -113,7 +107,7 @@ def deposit(request):
             msg = "<td>Deposited Successfully!</td><br>"
         else:
             msg = "<p>Invalid account number</p><br>"
-    return render(request, 'profiles/deposit.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg,'acccno':acccno})
+    return render(request, 'profiles/deposit.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg, 'acccno': acccno})
 
 
 def stat_gen(request):
@@ -179,9 +173,9 @@ def get_account_action(request):
     print("got:", request.GET)
     account_action = request.GET['account_action']
     # err_msg=""
-    if (account_action == 'create' ):
-        if (cur_customer.accounts ):
-            pass #pop up
+    if (account_action == 'create'):
+        if (cur_customer.accounts):
+            pass  # pop up
         else:
             cur_customer.create_account()
     elif (account_action == 'close'):
@@ -194,13 +188,14 @@ def get_account_action(request):
         cur_customer.close_account(close_accno)
     else:
         print("Got neither create nor close")
-        
+
     #print("Account created successfully")
     return redirect('profiles:account_management')
 
 
 def show_ecs_options(request):
-    return render(request, "profiles/ecs.html")
+    acccno = int(list(cur_customer.accounts.keys())[0])
+    return render(request, "profiles/transfer.html",{"acccno":acccno})
 
 
 def redirect_ecs(request):

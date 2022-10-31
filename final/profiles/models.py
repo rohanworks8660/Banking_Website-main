@@ -92,7 +92,7 @@ class UserInfo(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     fathers_name = models.CharField(max_length=100)
-    mothers_name = models.CharField(max_length=100)
+    mothers_name = models.CharField(max_length=100,primary_key=True )
     address = models.CharField(max_length=100)
     gender = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
@@ -100,7 +100,6 @@ class UserInfo(models.Model):
     dob = models.DateField()
     phone_number = models.IntegerField()
     email_address = models.EmailField()
-    password = models.ForeignKey(
-        User, on_delete=models.CASCADE, primary_key=True )
+    password = models.CharField(max_length=100)
     class Meta:
         db_table = 'UserInfo'

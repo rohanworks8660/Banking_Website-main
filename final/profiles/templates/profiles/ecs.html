@@ -1,51 +1,53 @@
 {% extends 'base.html' %}
-    
-    {% block stylecontent %}
-    <style>
-        body {
-            background-color: aliceblue;
-        }
-        h2 {
-            font-family: 'Slabo 27px';
-            border-bottom: 1px solid black;
-            font-weight: 900;
-        }
-        #page_name {
-            font-size: 25;
-        }
-        
-        #details_box {
-            font-size: 23;
-            top: 50px;
-            left: 30px;
-        }
-        
-        #details_table {
-            font-size: 20;
-            position: relative;
-            align-items: center;
-        }
-        
-        #edit_details {
-            top: 10px;
-            left: 20px;
-        }
-        
-        #edit_button {
-            border: none;
-            color: black;
-            padding: 5px 7px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 2px 1px;
-            cursor: pointer;
-        }
-    </style>
-    {%endblock%}
-    
-<body >
+
+{% block stylecontent %}
+<style>
+    body {
+        background-color: aliceblue;
+    }
+
+    h2 {
+        font-family: 'Slabo 27px';
+        border-bottom: 1px solid black;
+        font-weight: 900;
+    }
+
+    #page_name {
+        font-size: 25;
+    }
+
+    #details_box {
+        font-size: 23;
+        top: 50px;
+        left: 30px;
+    }
+
+    #details_table {
+        font-size: 20;
+        position: relative;
+        align-items: center;
+    }
+
+    #edit_details {
+        top: 10px;
+        left: 20px;
+    }
+
+    #edit_button {
+        border: none;
+        color: black;
+        padding: 5px 7px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 2px 1px;
+        cursor: pointer;
+    }
+</style>
+{%endblock%}
+
+<body>
     {% block bodycontent %}
     <table style="padding-left:20%" width=70% height=60%>
         <tr>
@@ -63,13 +65,13 @@
         </tr>
     </table>
     <form style="padding-left:20%" name="ecs_opt" action="redirect_ecs">
-    <input type="hidden" name="ecs_option" id="ecs_option">
-    <button class="button" onclick="set_ecs_option('new_ecs')"> Transfer Money </button>
-    <button class="button" onclick="set_ecs_option('view_ecs')"> Pay Biller </button>
+        <input type="hidden" name="ecs_option" id="ecs_option">
+        <button class="button" onclick="set_ecs_option('new_ecs')"> Transfer Money </button>
+        <button class="button" onclick="set_ecs_option('view_ecs')"> Pay Biller </button>
     </form>
-    
+
     <script>
-        function set_ecs_option(option){
+        function set_ecs_option(option) {
             hidden_field = document.getElementById("ecs_option");
             hidden_field.setAttribute("value", option);
         }
