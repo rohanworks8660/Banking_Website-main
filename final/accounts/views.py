@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from profiles.models import UserInfo
 from .forms import NewForm, Ourform
 from django.contrib.auth.models import User
+import os
 
 NewForm = modelform_factory(UserInfo, exclude=[])
 
@@ -56,4 +57,5 @@ def logout_view(request):
 def homepage(request):
     # Logout the user if he hits the logout submit button
     logout(request)
-    return render(request, "accounts/homepage.html")
+    cwd=os.getcwd
+    return render(request, "accounts/homepage.html",{"cwd":cwd})

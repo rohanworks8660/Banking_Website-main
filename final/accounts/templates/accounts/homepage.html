@@ -9,15 +9,53 @@
 {% endblock %}
 
 {% block bodycontent %}
-<div class="container">
-  <h2>{% lorem 4 %}</h2>
-</div>
-{% endblock %}
 
-{% block scriptcontent %}
-<script>
-  $('.active').removeClass('active')
-  $('#nav-login').addClass('active')
-  $('input').addClass('form-control')
-</script>
+<body>
+
+  <div id="SimpleCarouselExample" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        {% load static %} <img
+          src="https://res.cloudinary.com/demo/image/fetch/https://upload.wikimedia.org/wikipedia/en/f/f2/Robert_Downey_Jr._as_Tony_Stark_in_Avengers_Infinity_War.jpg"
+          class="d-block w-50" alt="...">
+      </div>
+
+      <div class="carousel-item">
+        {% load static %} <img
+          src="https://res.cloudinary.com/demo/image/fetch/http://upload.wikimedia.org/wikipedia/commons/4/46/Jennifer_Lawrence_at_the_83rd_Academy_Awards.jpg"
+          class="d-block w-50" alt="...">
+      </div>
+
+      <div class="carousel-item">
+        {% load static %} <img
+          src="https://res.cloudinary.com/demo/image/fetch/http://upload.wikimedia.org/wikipedia/commons/4/46/Jennifer_Lawrence_at_the_83rd_Academy_Awards.jpg"
+          class="d-block w-50" alt="...">
+      </div>
+
+    </div>
+
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+
+  </div>
+
+
+
+
+  {% block scriptcontent %}
+  {% comment %} <script>
+    $('.active').removeClass('active')
+    $('#nav-login').addClass('active')
+    $('input').addClass('form-control')
+  </script> {% endcomment %}
+  {% endblock %}
+</body>
 {% endblock %}
