@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block stylecontent %}
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Slabo+27px');
+
+    body {
+        background-color: aliceblue;
+    }
+
+    h2 {
+        font-family: 'Slabo 27px';
+        border-bottom: 1px solid black;
+        font-weight: 900;
+    }
+
+    form ul {
+        list-style: none;
+    }
+</style>
+
+{% endblock %}
+
+{% block bodycontent%}
+<div class="container">
+<h2 class="container text-center ">Enter Login Details</h2>
+<h6 class="text-center"><em>(All details are mandatory)</em></h6>
+<br>
+<div class="d-flex justify-content-center">
+    <form class=" w-25 row  d-flex justify-content-center  " action="/accounts/login/" method="post">
+        {% csrf_token %}
+        <section class="form-control-lg">
+        {{ form.as_table }}
+        </section>
+        
+        <div class="pt-2   flex-grow-1 ">
+        <button type="submit" class="btn btn-primary ">Login</button>
+        <button class="btn btn-primary "> <a class="" style="color:white" href="{% url 'accounts:signup' %}">Create New Account</a>
+        </button>  
+        </div>
+        </div>
+    </form>
+
+
+{% endblock %}
+
+{% block scriptcontent %}
+<script>
+    $(".active").removeClass("active");
+    $("#nav-login").addClass("active");
+    $("#nav-logout").addClass("inactive");
+    $("input").addClass("form-control");
+</script>
+{% endblock %}

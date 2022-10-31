@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block stylecontent %}
+<style>
+  body {
+    background-color: aliceblue;
+  }
+</style>
+{% endblock %}
+
+{% block bodycontent %}
+<div class="container">
+  <h2>{% lorem 4 %}</h2>
+</div>
+{% endblock %}
+
+{% block scriptcontent %}
+<script>
+  $('.active').removeClass('active')
+  $('#nav-login').addClass('active')
+  $('input').addClass('form-control')
+</script>
+{% endblock %}
