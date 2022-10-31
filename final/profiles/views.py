@@ -2,6 +2,7 @@
 
 
 
+from sqlalchemy import null
 from profiles.models import Customer_Data, Account_Data, Transactions, ECS_Data, Bills
 
 
@@ -13,7 +14,6 @@ import os
 
 print(os.getcwd())
 sys.path.append(os.getcwd()+'/profiles/utils')
-
 import Classes
 
 
@@ -59,6 +59,7 @@ def account_management(request):
 
 def withdraw(request):
     accounts = cur_customer.accounts
+    accnnnnno = int(list(cur_customer.accounts.keys())[0])
     msg = "<br>Enter a valid account no. and also check for ur balance!</p><br>"
     if request.method == "POST":
         acc_num = int(request.POST.get('acc_no'))
@@ -84,12 +85,13 @@ def withdraw(request):
 
         else:
             msg = "<p>Invalid account number</p><br>"
-    return render(request, 'profiles/withdraw.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg})
+    return render(request, 'profiles/withdraw.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg, 'accnnnnno':accnnnnno})
     # 'customer':cur_customer, 'accounts':accounts
 
 
 def deposit(request):
     accounts = cur_customer.accounts
+    acccno = int(list(cur_customer.accounts.keys())[0])
     msg = "<br>Enter a valid account no. and also check for ur balance!</p><br>"
     if request.method == "POST":
         acc_num = int(request.POST.get('acc_no'))
@@ -111,7 +113,7 @@ def deposit(request):
             msg = "<td>Deposited Successfully!</td><br>"
         else:
             msg = "<p>Invalid account number</p><br>"
-    return render(request, 'profiles/deposit.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg})
+    return render(request, 'profiles/deposit.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg,'acccno':acccno})
 
 
 def stat_gen(request):
@@ -177,8 +179,11 @@ def get_account_action(request):
     print("got:", request.GET)
     account_action = request.GET['account_action']
     # err_msg=""
-    if (account_action == 'create'):
-        cur_customer.create_account()
+    if (account_action == 'create' ):
+        if (cur_customer.accounts ):
+            pass #pop up
+        else:
+            cur_customer.create_account()
     elif (account_action == 'close'):
         print(request.GET)
         print("account:", cur_customer.accounts)
@@ -189,6 +194,7 @@ def get_account_action(request):
         cur_customer.close_account(close_accno)
     else:
         print("Got neither create nor close")
+        
     #print("Account created successfully")
     return redirect('profiles:account_management')
 

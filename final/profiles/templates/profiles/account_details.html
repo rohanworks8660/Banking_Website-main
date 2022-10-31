@@ -97,7 +97,13 @@
                                 {% endif %}
                                 <tr><td>
                                     <div class="mine" style="">
-                                        <button onclick="set_account_action('create')"> Create New Account </button> <br>
+                                    {% if accounts %}
+                                         
+                                    
+                                    {% else %}
+                                    <button onclick="set_account_action('create')"> Create New Account </button>
+                                    {% endif %}
+                                        <br>
                                         Close Account?
                                         <input name="close_accno" id="close_accno">
                                         <button onclick="set_account_action('close');check_valid_accno()" type="button"> Close Account </button>
