@@ -7,31 +7,46 @@ from django.forms import modelform_factory
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from profiles.models import UserInfo
-from .forms import NewForm, Ourform
+from .forms import NewForm
 from django.contrib.auth.models import User
 import os
 
-NewForm = modelform_factory(UserInfo, exclude=[])
+NewForm = modelform_factory(UserInfo, exclude=["username"])
 
-
+ 
+pswd=""
 def register(request):
+    global uname
     if request.method == "POST":
         form = UserCreationForm(request.POST)
-        #ourform = Ourform(request.POST)
-        UInf = NewForm(request.POST)
-        if form.is_valid() and UInf.is_valid():
+        uname = str(request.POST.get('username'))
+        if form.is_valid():
             form.save()
-            # ourform.save()
-            
-            UInf.save()
-            return redirect("accounts:signin")
+            return redirect("accounts:signup2")
     else:
         form = UserCreationForm()
-        #ourform = Ourform()
+    return render(request, "accounts/create_account.html", {"form": form})
+
+
+def update_username(uname,firstname):
+    a = UserInfo.objects.get(first_name=firstname)
+    a.username=uname
+    a.save()
+
+
+def register2(request):
+    global uname
+    if request.method == "POST":
+        UInf = NewForm(request.POST)
+        if UInf.is_valid():
+            firstname = str(request.POST.get('first_name'))
+            UInf.save()
+            
+            update_username(uname,firstname)
+            return redirect("accounts:signin")
+    else:
         UInf = NewForm()
-    return render(request, "accounts/create_account.html", {"form": form,  "UInf": UInf})
-
-
+    return render(request, "accounts/create_account2.html", {  "UInf": UInf,"uname":uname})
 
 def sign_in(request):
     if request.method == "POST":

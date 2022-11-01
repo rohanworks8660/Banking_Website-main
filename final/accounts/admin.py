@@ -4,4 +4,6 @@ from django.contrib import admin
 
 
 from profiles.models import UserInfo
+
+
 admin.site.register(UserInfo)

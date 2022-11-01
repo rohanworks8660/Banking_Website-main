@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from sqlalchemy import ForeignKey
 # Create your models here.
 
 
@@ -83,7 +84,7 @@ class Bills(models.Model):
     ECS_ID = models.ForeignKey(ECS_Data, on_delete=models.CASCADE)
     Amount = models.FloatField()
     Completed = models.BooleanField()
-
+    
     class Meta:
         db_table = 'bills'
 
@@ -92,7 +93,7 @@ class UserInfo(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     fathers_name = models.CharField(max_length=100)
-    mothers_name = models.CharField(max_length=100,primary_key=True )
+    mothers_name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     gender = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
@@ -100,6 +101,7 @@ class UserInfo(models.Model):
     dob = models.DateField()
     phone_number = models.IntegerField()
     email_address = models.EmailField()
-    password = models.CharField(max_length=100)
+    username = models.CharField( max_length=100)
+
     class Meta:
         db_table = 'UserInfo'

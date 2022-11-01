@@ -29,14 +29,21 @@
     <h2 class="container text-center">Create New Account</h2>
     <h6 class="text-center"><em>(All details are mandatory)</em></h6>
     <br>
-    <form style="padding-left:25%" class="form w-75 " action="/accounts/register/" method="post">
+    <form style="padding-left:25%" class="form w-75 " action="/accounts/register2/" method="post">
         {% csrf_token %}
         <h4>Enter basic details</h4>
+        <h2>{{ uname }}</h2>
         <section class="form-control ">
-            {{ form.as_ul }}
+            {{ UInf.as_ul }}
         </section>
         <br>
-        <input type="submit" class="position-relative start-50 translate-middle btn btn-outline-primary " value="Next"
+        <section>
+            <input class="form-check-input" type="checkbox" required>
+            <small>By clicking "Create account" you agree to our
+                <a href="#">Terms and Conditions</a>.</small>
+        </section>
+        <br>
+        <input type="submit" class="position-relative start-50 translate-middle btn btn-primary" value="Create account"
             name="submit" />
     </form>
 </div>
