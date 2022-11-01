@@ -1,1 +1,2 @@
-create database Bank_DB;
+create database bank_db;
+use bank_db;

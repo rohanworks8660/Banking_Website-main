@@ -1,4 +1,4 @@
-# Banking_Website
+# Banking Website
 The Online Bank System has the following functionalities :
   1. Login/Logout
        Login as existing user or new user .
@@ -16,27 +16,31 @@ The Online Bank System has the following functionalities :
        based on specified criteria (credit transactions, debit transactions over the given period)
 
   5. Electronic Clearance Service
+---------------------
+##  Steps to follow while setting up first time:
 
+1. Run in cmd : 
+     ```
+     pip install -r Requirements.txt
+     ```
+2. Setup mysql using ```sqlqueries.txt```
+     1. Create a DB in MYSQL with name:- ```Bank_DB```
+     2. ```Use bank_db```
 
-Requirements: 
-  1. Django 3.x
-  2. Mysql
+3. Double click ```setup.bat``` to get ```bank_db``` up to date and start the server. Contains   
+     ```
+     python manage.py makemigrations
+     python manage.py migrate
+     python manage.py runserver
+     ```
+4. Double click ```runserver.bat``` to just start the server without migrations. Contains  
+     ```
+     python manage.py runserver
+     ```
 
-Create a DB in MYSQL with name:- Bank_DB
+5. Go to browser and run url - Online Bank -  http://127.0.0.1:8000/
 
-For demo:- https://youtu.be/wj67Cao1DeA
-
-Steps to run the code :
-       
-  ```
-  python manage.py makemigrations
-  python manage.py migrate
-  python manage.py runserver
-  ```
-
-Go to browser and run url - 
-Online Bank -  http://127.0.0.1:8000/accounts/login/
-
+---------------------
 
 
 
