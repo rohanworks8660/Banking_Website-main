@@ -3,25 +3,24 @@
 from sqlalchemy import null
 from profiles.models import Customer_Data, Account_Data, Transactions, ECS_Data, Bills
 from django.http import HttpResponse
-import random
 from django.shortcuts import render, redirect
-import sys
 import os
+import sys
+import random
 
-#print(os.getcwd())
 sys.path.append(os.getcwd()+'/profiles/utils')
 import Classes
 
-cur_customer = None  # Stores customer obj
+# Stores customer obj
+cur_customer = None
 
 
 # Create your views here.
 
 
-
-def randomGen():                                        # return a 6 digit random number
+def randomGen():
+    # return a 6 digit random number
     return int(random.uniform(100000, 999999))
-
 
 
 def display_menu(request):
@@ -76,11 +75,9 @@ def withdraw(request):
                 msg = "<td>Withdrawn Successfully!</td><br>"
             else:
                 msg = "<td>Not sufficient balance!</td><br>"
-
         else:
             msg = "<p>Invalid account number</p><br>"
     return render(request, 'profiles/withdraw.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg, 'accnnnnno': accnnnnno})
-    # 'customer':cur_customer, 'accounts':accounts
 
 
 def deposit(request):
@@ -91,9 +88,7 @@ def deposit(request):
         acc_num = int(request.POST.get('acc_no'))
         amount = int(request.POST.get('amount'))
         print('requestPOST=', acc_num, type(acc_num))
-        #print('account dict:',accounts.keys())
         if acc_num in accounts:
-            #acc_obj= accounts[acc_num]
             acc_q = Account_Data.objects.get(Accno=acc_num)
             balance = acc_q.Balance
             print("balance:", balance)
@@ -119,8 +114,6 @@ def stat_gen(request):
         print("acc_no:", acc)
         acc_q = Account_Data.objects.get(Accno=int(acc))
         trans = Classes.Account(acc_q)
-        # trans_rec=Transactions.objects.filter(Accno_id=int(acc))
-        # print("trans_rec:",trans_rec)
         transaction = trans.get_transaction_log()
         trans_objs_list = list(transaction.values())
         all_transactions[acc] = all_transactions.get(acc, [])+trans_objs_list
@@ -147,7 +140,6 @@ def get_transaction_action(request):
             all_transactions[acc] = list(transaction)
     elif (button_action == 'all'):
         return redirect('profiles:stat_gen')
-    #print("Account created successfully")
     print("all_trans:", all_transactions)
     return render(request, 'profiles/stat_gen.html', {'customer': cur_customer, 'accounts': accounts, 'transaction': all_transactions, 'msg': msg})
 
@@ -182,83 +174,14 @@ def get_account_action(request):
         print(request.GET)
         print("account:", cur_customer.accounts)
         close_accno = int(request.GET['close_accno'])
-        # if(close_accno not in accounts):
-        #    err_msg = "Invalid Account number!"
-        # else:
         cur_customer.close_account(close_accno)
     else:
         print("Got neither create nor close")
-
-    #print("Account created successfully")
     return redirect('profiles:account_management')
 
-
+## transfer within bank DONT DELETE
 def show_ecs_options(request):
     acccno = int(list(cur_customer.accounts.keys())[0])
-    return render(request, "profiles/transfer.html",{"acccno":acccno})
+    return render(request, "profiles/transfer.html", {"acccno": acccno})
 
 
-def redirect_ecs(request):
-    ecs_option = request.GET['ecs_option']
-    print("ecs_option", ecs_option)
-    if (ecs_option == "new_ecs"):
-        return redirect('profiles:start_ecs')
-    if (ecs_option == 'view_ecs'):
-        return redirect('profiles:show_due_bills')
-
-
-def start_ecs(request):
-    msg = ""
-    return render(request, 'profiles/set_up_ecs.html', {"msg": msg})
-
-
-def store_new_ecs_data(request):
-    # Make a class for ECS
-    payer_name = request.GET['payer_name']
-    upper_limit = request.GET['upper_limit']
-    accno = int(request.GET['accno'])
-    acc_obj = cur_customer.accounts[accno]
-    ecs_obj = Classes.New_ECS(payer_name, acc_obj, upper_limit)
-    msg = "New ECS Created Successfully!"
-    return render(request, 'profiles/set_up_ecs.html', {"msg": msg})
-
-
-def show_due_bills(request):
-    accounts = cur_customer.accounts
-    bills_list = []
-    for acc_obj in accounts.values():
-        ecs_list = ECS_Data.objects.filter(Account=acc_obj.account_details)
-        for ecs in ecs_list:
-            bills_for_cur_ecs = Bills.objects.filter(
-                ECS_ID=ecs).filter(Completed=False)
-            for bill in bills_for_cur_ecs:
-                bill_details = [bill.id, ecs.Payer_Name,
-                                acc_obj.account_no, bill.Amount, ecs.Upper_Limit]
-                if (bill.Amount <= ecs.Upper_Limit):
-                    bill_details.append("yes")
-                else:
-                    bill_details.append("NO")
-                # bills_list.extend(list(bills_for_cur_ecs))
-                bills_list.append(bill_details)
-    print(bills_list)
-    return render(request, 'profiles/ecs_show_bills.html', {'bills_list': bills_list})
-
-
-def pay_bill(request):
-    bill_id = request.GET['bill_id']
-    print("bill_id", bill_id)
-    bill_obj = Bills.objects.get(id=bill_id)
-    bill_obj.Completed = True
-    bill_obj.save()
-    return redirect('profiles:show_due_bills')
-
-
-'''    
-def test_classes(request):
-    print("got to test classes")
-    login_obj = Classes.Login_Details('anj', 'anj123')
-    cust_obj = Classes.Customer(login_obj)
-    acc_obj = Classes.Account(1111)
-    new_acc_obj = Classes.New_Account(111, cust_obj)
-    new_cust_obj = Classes.New_Customer(login_obj, 'anjali', 'addr1', '99880')
-'''

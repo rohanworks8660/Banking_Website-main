@@ -22,10 +22,5 @@ urlpatterns = [
     path(r"get_stat_gen", views.get_transaction_action,
          name='get_transaction_action'),
     path(r"show_ecs_options", views.show_ecs_options, name='show_ecs_options'),
-    path(r"redirect_ecs", views.redirect_ecs, name='redirect_ecs'),
-    path(r"start_ecs", views.start_ecs, name='start_ecs'),
-    path(r"store_new_ecs_data", views.store_new_ecs_data,
-         name='store_new_ecs_data'),
-    path(r"show_due_bills", views.show_due_bills, name='show_due_bills'),
-    path(r"pay_bill", views.pay_bill, name='pay_bill'),
+
 ]

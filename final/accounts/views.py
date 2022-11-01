@@ -1,20 +1,20 @@
 # Create your views here.
-
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from django.contrib.auth import logout
-from django.forms import modelform_factory
-
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from profiles.models import UserInfo
-from .forms import NewForm
-from django.contrib.auth.models import User
 import os
+from django.forms import modelform_factory
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from .forms import NewForm
+from profiles.models import UserInfo
+
 
 NewForm = modelform_factory(UserInfo, exclude=["username"])
 
- 
-pswd=""
+
+pswd = ""
+
+
 def register(request):
     global uname
     if request.method == "POST":
@@ -28,11 +28,10 @@ def register(request):
     return render(request, "accounts/create_account.html", {"form": form})
 
 
-def update_username(uname,firstname):
+def update_username(uname, firstname):
     a = UserInfo.objects.get(first_name=firstname)
-    a.username=uname
+    a.username = uname
     a.save()
-
 
 def register2(request):
     global uname
@@ -41,12 +40,12 @@ def register2(request):
         if UInf.is_valid():
             firstname = str(request.POST.get('first_name'))
             UInf.save()
-            
-            update_username(uname,firstname)
+            update_username(uname, firstname)
             return redirect("accounts:signin")
     else:
         UInf = NewForm()
-    return render(request, "accounts/create_account2.html", {  "UInf": UInf,"uname":uname})
+    return render(request, "accounts/create_account2.html", {"UInf": UInf, "uname": uname})
+
 
 def sign_in(request):
     if request.method == "POST":
@@ -54,13 +53,10 @@ def sign_in(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            # return redirect("profiles:account_status")
             return redirect("profiles:dashboard")
     else:
         form = AuthenticationForm()
-        # print('invalid')
     return render(request, "accounts/sign_in.html", {"form": form})
-    # return redirect("accounts:signin")
 
 
 def logout_view(request):
@@ -72,5 +68,5 @@ def logout_view(request):
 def homepage(request):
     # Logout the user if he hits the logout submit button
     logout(request)
-    cwd=os.getcwd
-    return render(request, "accounts/homepage.html",{"cwd":cwd})
+    cwd = os.getcwd
+    return render(request, "accounts/homepage.html", {"cwd": cwd})
