@@ -14,6 +14,14 @@ NewForm = modelform_factory(UserInfo, exclude=["username"])
 
 pswd = ""
 
+def services(request):
+    return render(request, "accounts/services.html")
+
+def aboutus(request):
+    return render(request, "accounts/aboutus.html")
+
+def contactus(request):
+    return render(request, "accounts/contactus.html")
 
 def register(request):
     global uname

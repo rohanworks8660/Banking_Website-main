@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block stylecontent %}
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Slabo+27px');
+
+    body {
+        background-color: aliceblue;
+    }
+
+    h2 {
+        font-family: 'Slabo 27px';
+        border-bottom: 1px solid black;
+        font-weight: 900;
+        text-align:center;
+    }
+
+    form ul {
+        list-style: none;
+    }
+</style>
+
+{% endblock %}
+
+{% block bodycontent%}
+<h2>About us Page</h2>
+{% endblock %}
+
+{% block scriptcontent %}
+<script>
+    $(".active").removeClass("active");
+    $("#nav-login").addClass("active");
+    $("#nav-logout").addClass("inactive");
+    $("input").addClass("form-control");
+</script>
+{% endblock %}

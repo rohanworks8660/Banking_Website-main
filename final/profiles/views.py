@@ -157,8 +157,8 @@ def get_function_chosen(request):
         return redirect('profiles:deposit')  # name of view given in urls.py
     elif (menu_chosen == 'stat_gen'):
         return redirect('profiles:stat_gen')  # name of view given in urls.py
-    elif (menu_chosen == 'start_ecs'):
-        return redirect('profiles:show_ecs_options')
+    elif (menu_chosen == 'money_transfer'):
+        return redirect('profiles:money_transfer')
 
 
 def get_account_action(request):
@@ -179,8 +179,7 @@ def get_account_action(request):
         print("Got neither create nor close")
     return redirect('profiles:account_management')
 
-## transfer within bank DONT DELETE
-def show_ecs_options(request):
+def money_transfer(request):
     acccno = int(list(cur_customer.accounts.keys())[0])
     return render(request, "profiles/transfer.html", {"acccno": acccno})
 
