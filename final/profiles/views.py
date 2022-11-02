@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 import os
 import sys
 import random
+import mysql.connector as sql
 
 sys.path.append(os.getcwd()+'/profiles/utils')
 import Classes
@@ -16,7 +17,6 @@ cur_customer = None
 
 
 # Create your views here.
-
 
 def randomGen():
     # return a 6 digit random number
@@ -37,7 +37,7 @@ def display_menu(request):
     else:
         print("Making New Customer")
         customer = Classes.New_Customer(
-            user_log_in, user_log_in.username, '9999999999', 'saa@gmail.com')
+            user_log_in, user_log_in.username, "54654354647", 'saa@gmail.com')
     print("Customer name:", customer.customer_data.Name)
     cur_customer = customer
     return render(request, 'profiles/user_account.html', {'customer': customer})
@@ -180,7 +180,58 @@ def get_account_action(request):
     return redirect('profiles:account_management')
 
 def money_transfer(request):
+    to_accno=0
+    amount1=0
+    msg=""
     acccno = int(list(cur_customer.accounts.keys())[0])
-    return render(request, "profiles/transfer.html", {"acccno": acccno})
+    #global amount1,to_accno
+    if request.method == "POST":
+        if(request.POST.get('accc_no')):
+            to_accno = int(request.POST.get('accc_no'))
+        else:
+            msg="<br> Enter TO Account No"
+        if(request.POST.get('amount')):
+            amount1 = int(request.POST.get('amount'))
+        else:
+            msg+="<br>Please Enter the amt"
+        obj1=sql.connect(host="localhost", user="root", passwd="root", database='bank_db', auth_plugin='mysql_native_password')
+        cursor1=obj1.cursor()
+        c1="select * from account"
+        cursor1.execute(c1)
+        t=list(cursor1.fetchall())
+        l1,l2,l3=[],[],[]
+        for i in range(len(t)):
+            l1.append(t[i][0])
+            l2.append(t[i][1])
+            l3.append(t[i][2])
+        to_acc=to_accno
+        amount=amount1
+        from_acc=acccno
+        print(from_acc,to_accno,amount1)
 
+        if from_acc in l1 and to_acc in l1:
+            f=l1.index(from_acc)
+            t=l1.index(to_acc)
+            if l2[f]>=amount:
+                l2[f]=l2[f]-amount
+                l2[t]+=amount
+                print("Amount transferred successfully")
+                cursor2=obj1.cursor()
+                cursor3=obj1.cursor()
+                c1="UPDATE account SET balance={} where accno= {};".format(l2[f],l1[f])
+                cursor2.execute(c1)
+                obj1.commit()
 
+                c2="UPDATE account SET balance={} where accno= {};".format(l2[t],l1[t])
+                cursor3.execute(c2)
+                obj1.commit()
+                msg+="<br>Transaction Successfull"
+            else:
+                print("Insufficient funds")
+                msg+="<br>Insufficient Balance"
+                    
+        else:
+            print("Invalid Account number")
+            msg+="<br>Invalid ACC No"
+        return render(request,"profiles/transfer.html",{"msg":msg,"acccno":acccno})
+    return render(request, "profiles/transfer.html",{"acccno":acccno})

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base1.html' %}
 {% block stylecontent %}
 <style>
     @import url('https://fonts.googleapis.com/css?family=Slabo+27px');
@@ -23,6 +23,38 @@
 
 {% block bodycontent%}
 <h2>Services Page</h2>
+<form class="center" name="dashboard" action="redirect_from_dashboard">
+                        <input type="hidden" name="function_chosen" id="function_chosen">
+                        <div id="buttons_box">
+
+                            <table id="buttons_table" cellpadding=5px;>
+
+                                <tr>
+                                    <td><button id="buttons" class="button"
+                                            onclick="set_function_chosen('view_accounts')">View Balance</button></td>
+                                </tr>
+                                <!-- tr>
+                                <td><button id="buttons" onclick="set_function_chosen('money_transfer')"> Money Transfer</button></td>
+                            </tr -->
+                                <tr>
+                                    <td><button id="buttons" onclick="set_function_chosen('money_transfer')"> Transfer Within
+                                            Bank </button></td>
+                                </tr>
+                                <tr>
+                                    <td><button id="buttons" onclick="set_function_chosen('withdraw')"> Withdraw Money
+                                        </button></td>
+                                </tr>
+                                <tr>
+                                    <td><button id="buttons" onclick="set_function_chosen('deposit')"> Deposit Money
+                                        </button></td>
+                                </tr>
+                                <tr>
+                                    <td><button id="buttons" onclick="set_function_chosen('stat_gen')"> Transaction
+                                            History </button></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
 {% endblock %}
 
 {% block scriptcontent %}

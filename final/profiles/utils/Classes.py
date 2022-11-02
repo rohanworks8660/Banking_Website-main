@@ -100,8 +100,6 @@ class Customer:
         del self.accounts[accno]
         
                 
-            
-        
 class New_Customer(Customer):
     def __init__(self, log_in_obj, name, phone_no, email):
         #Insert details to DB
