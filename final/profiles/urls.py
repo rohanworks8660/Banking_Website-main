@@ -20,5 +20,4 @@ urlpatterns = [
     path(r"get_stat_gen", views.get_transaction_action,
          name='get_transaction_action'),
 
-
 ]

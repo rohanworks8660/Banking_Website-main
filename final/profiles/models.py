@@ -4,6 +4,7 @@ from sqlalchemy import ForeignKey
 # Create your models here.
 
 
+
 class Customer_Data(models.Model):
     Cust_ID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=200)
@@ -88,6 +89,7 @@ class Bills(models.Model):
     class Meta:
         db_table = 'bills'
 
+from django.core.validators import RegexValidator
 
 class UserInfo(models.Model):
     first_name = models.CharField(max_length=100)
@@ -99,7 +101,8 @@ class UserInfo(models.Model):
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     dob = models.DateField()
-    phone_number = models.IntegerField()
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) # Validators should be a list
     email_address = models.EmailField()
     username = models.CharField( max_length=100)
 

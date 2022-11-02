@@ -1,7 +1,7 @@
 # sys.path defines paths from which imports can be made
 
 from sqlalchemy import null
-from profiles.models import Customer_Data, Account_Data, Transactions, ECS_Data, Bills
+from profiles.models import Customer_Data, Account_Data, Transactions, UserInfo
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import os
@@ -29,7 +29,8 @@ def display_menu(request):
         request.user.username, request.user.password)
     # Check if customer is a new or existing customer
     cust_details = Customer_Data.objects.filter(Name=user_log_in.username)
-    print("cust_details", cust_details)
+    user_dets = UserInfo.objects.get(username = user_log_in.username)
+    print("cust_details", user_dets.phone_number)
     if (cust_details):
         print("Existing Customer")
         customer = Classes.Customer(user_log_in)
@@ -37,10 +38,11 @@ def display_menu(request):
     else:
         print("Making New Customer")
         customer = Classes.New_Customer(
-            user_log_in, user_log_in.username, "54654354647", 'saa@gmail.com')
+            user_log_in, user_log_in.username, user_dets.phone_number , user_dets.email_address)
     print("Customer name:", customer.customer_data.Name)
     cur_customer = customer
-    return render(request, 'profiles/user_account.html', {'customer': customer})
+    name=user_dets.first_name+" "+user_dets.fathers_name+" "+user_dets.last_name
+    return render(request, 'profiles/user_account.html', {'customer': customer,"user_dets":user_dets,"name":name})
 
 
 def account_management(request):
