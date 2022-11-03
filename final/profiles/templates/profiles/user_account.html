@@ -91,24 +91,16 @@
     {%endblock%}
 
     {% block bodycontent %}
-    <div class="depo">
+    <div>
+
+        <div>
+            <h2 style="text-align:center">Dashboard
+            </h2>
+        </div>
+
+<br>
         <table class=" center">
-            <tr>
-                <td>
-                    <div id="page_name" style="text-align:right;">
-                        <font color="#3399ff">Dashboard |</font>
-                    </div>
-                </td>
-                <td>
-                    <div id="page_name">
-                        <font color="#3399ff">| Services</font>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align:right;">-------------------------------------</td>
-                <td>-------------------------------------</td>
-            </tr>
+        
             <tr>
                 <td>
                     <div id="details_box" align="center">
@@ -119,28 +111,48 @@
                             </tr>
 
 
-                            <tr id="accname">
+                            <tr>
                                 <td><b>Phone no.: </b>{{customer.customer_data.Phone_no}}</td>
                             </tr>
+                            <tr>
+                                <td><b>Phone no.: </b>{{customer.customer_data.Phone_no}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Phone no.: </b>{{customer.customer_data.Phone_no}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Phone no.: </b>{{customer.customer_data.Phone_no}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Phone no.: </b>{{customer.customer_data.Phone_no}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Phone no.: </b>{{customer.customer_data.Phone_no}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Phone no.: </b>{{customer.customer_data.Phone_no}}</td>
+                            </tr>
+
                         </table>
                     </div>
                 </td>
                 <td>
+
                     <form class="center" name="dashboard" action="redirect_from_dashboard">
                         <input type="hidden" name="function_chosen" id="function_chosen">
                         <div id="buttons_box">
 
-                            <table id="buttons_table" cellpadding=5px;>
-
+                            <table class="center" id="buttons_table" cellpadding=5px;>
+                                <tr>
+                                    <h2 style="text-align:center">Services </h2>
+                                </tr>
                                 <tr>
                                     <td><button id="buttons" class="button"
                                             onclick="set_function_chosen('view_accounts')">View Balance</button></td>
                                 </tr>
-                                <!-- tr>
-                                <td><button id="buttons" onclick="set_function_chosen('money_transfer')"> Money Transfer</button></td>
-                            </tr -->
                                 <tr>
-                                    <td><button id="buttons" onclick="set_function_chosen('money_transfer')"> Transfer Within
+                                    <td><button id="buttons" onclick="set_function_chosen('money_transfer')"> Transfer
+                                            Within
                                             Bank </button></td>
                                 </tr>
                                 <tr>

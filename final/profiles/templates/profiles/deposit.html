@@ -50,70 +50,52 @@
         .depo {
             padding-left: 20%
         }
+
+        .center {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+        }
     </style>
     {%endblock%}
 
     {% block bodycontent %}
-    <div class="depo">
-        <table width=70% height=60%>
-            <tr>
-                <td>
-                    <div style="padding-left:110%" id="page_name" style="float:left;">
-                        <font color="#3399ff">Deposit</font>
-                    </div>
-                </td>
-                <td>
-                    <div id="edit_details" style="float:right;">
-                        <button type="button" id="edit_button"><a
-                                href="{% url 'profiles:dashboard' %}">Home</a></button>
-                    </div>
-
-                </td>
-
-            </tr>
-            <tr>
-                <td></td>
-
-                <td>
-
-                    <div id="details_box">
-                        <form name="deposit_details" action="deposit" method="POST">
-                            <table id="details_table" cellpadding=5px;>
-                                {% if accounts %}
-                                {% csrf_token %}
-                                <tr>
-                                    <td>Amount to be deposited :</td>
-                                    <td><input type="text" name="amount" placeholder="Amount"></td>
-                                </tr>
-                                <tr>
-                                    <td> Deposit into account :</td>
-                                    <td><input value={{ acccno }} type="text" name="acc_no"
-                                            placeholder="Account number"></td>
-                                </tr>
-
-                                <tr>
-                                    <td></td>
-                                    <td><button>Deposit</button></td>
-                                </tr>
-                                {% else %}
-                                <tr>
-                                    <td> New Customer. No accounts yet. </td>
-                                </tr>
-                                {% endif %}
-                                <tr>
-                                    <td><span>{{msg|safe}}</span></td>
-                                </tr>
-                                <tr>
-                                    <td> <small>By transferring money from your account, you agree to the <a
-                                                href="#">Terms and Conditions</a> of amount transfer</small>. <br></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        </table>
+    <div style="text-align:center">
+        <h2>Deposit</h2>
     </div>
+
+    <div class="center"  >
+        <form  class="form center" name="deposit_details" action="deposit" method="POST">
+            <table class=""  id="details_table" cellpadding=5px;>
+                {% if accounts %}
+                {% csrf_token %}
+                <tr>
+                    <td><span>{{msg|safe}}</span></td>
+                </tr>
+                <tr>
+                    <td>Amount to be deposited :</td>
+                    <td><input type="text" name="amount" placeholder="Amount"></td>
+                </tr>
+                <tr>
+                    <td> Deposit into account :</td>
+                    <td><input disabled value={{ acccno }} type="text" name="acc_no" placeholder="Account number"></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><button>Deposit</button></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td> New Customer. No accounts yet. </td>
+                </tr>
+                {% endif %}
+                
+
+            </table>
+        </form>
+    </div>
+
     {%endblock%}
 </body>
 

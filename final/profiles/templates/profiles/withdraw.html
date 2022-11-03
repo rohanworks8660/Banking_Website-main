@@ -46,71 +46,59 @@
             margin: 2px 1px;
             cursor: pointer;
         }
+
+        .center {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+        }
     </style>
 
     {%endblock%}
 
     {% block bodycontent %}
-    <table width=70% height=60%>
-        <tr>
-            <td>
-                <div id="page_name" style="float:left;">
-                    <font color="#3399ff">Withdraw</font>
-                </div>
-            </td>
-            <td>
-                <div id="edit_details" style="float:right;">
-                    <button type="button" id="edit_button"><a href="{% url 'profiles:dashboard' %}">Home</a></button>
-                </div>
 
-            </td>
+    <div id="page_name" style="text-align:center;">
+        <h2>Withdraw</h2>
+    </div>
 
-        </tr>
-        <tr>
-            <td></td>
 
-            <td>
-
-                <div id="details_box">
-                    <form name="withdraw_details" action="withdraw" method="POST">
-                        <table id="details_table" cellpadding=5px;>
-                            {% if accounts %}
-                            {% csrf_token %}
-                            <tr>
-                                <td>Amount to be withdrawn :</td>
-                                <td><input type="text" name="amount" placeholder="Amount"></td>
-                            </tr>
-                            <tr>
-                                <td> Withdraw from account :</td>
-                                <td><input value={{  accnnnnno }} type="text" name="acc_no"
-                                        placeholder="Account number"></td>
-                            </tr>
-
-                            <tr>
-                                <td></td>
-                                <!--<td><input type="button" value="Withdraw"></td>-->
-                                <td><button>Withdraw</button></td>
-                            </tr>
-                            {% else %}
-                            <tr>
-                                <td> New Customer. No accounts yet. </td>
-                            </tr>
-                            {% endif %}
-                            <tr>
-                                <td><span>{{msg|safe}}</span></td>
-                            </tr>
-                            <tr>
-                                <td> <small>By transferring money from your account, you agree to the <a href="#">Terms
-                                            and Conditions</a> of amount transfer</small>. <br></td>
-                            </tr>
-                        </table>
-                    </form>
+    <div class="center" id="details_box">
+        <form class="center form" name="withdraw_details" action="withdraw" method="POST">
+            <table style="width:100%;" class="center " id="details_table" cellpadding=5px;>
+                {% if accounts %}
+                {% csrf_token %}
+                <tr>
+                    <td><span>{{msg|safe}}</span></td>
+                </tr>
+                
+                <tr>
+                    <td> Withdraw from account :</td>
+                    <td><input disabled value={{  accnnnnno }} type="text" name="acc_no" placeholder="Account number"></td>
+                </tr>
+                <tr>
+                    <td>Amount to be withdrawn :</td>
+                    <td><input type="text" name="amount" placeholder="Amount"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="submit">Withdraw</button></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td> New Customer. No accounts yet. </td>
+                </tr>
+                {% endif %}
+                
+                {% comment %} <tr>
+                    <td> <small>By transferring money from your account, you agree to the <a href="#">Terms
+                                and Conditions</a> of amount transfer</small>. <br></td>
+                </tr> {% endcomment %}
+            </table>
+        </form>
 
 
 
-                </div>
-            </td>
-        </tr>
-    </table>
+    </div>
     {% endblock%}
 </body>

@@ -5,7 +5,7 @@
     @import url('https://fonts.googleapis.com/css?family=Slabo+27px');
 
     body {
-        background-color: aliceblue;
+        background-color: #D8F0F7;
     }
 
     h2 {
@@ -32,7 +32,7 @@
     <form style="padding-left:25%" class="form w-75 " action="/accounts/register/" method="post">
         {% csrf_token %}
         <h4>Enter basic details</h4>
-        <section class="form-control ">
+        <section style="background-color: #FAFCFC;" class="form-control ">
             {{ form.as_ul }}
         </section>
         <br>

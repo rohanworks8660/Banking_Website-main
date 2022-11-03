@@ -11,18 +11,57 @@
         font-family: 'Slabo 27px';
         border-bottom: 1px solid black;
         font-weight: 900;
-        text-align:center;
+        text-align: center;
     }
 
     form ul {
         list-style: none;
     }
+
+    body {
+        font-family: "Times New Roman", Georgia, Serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: "Playfair Display";
+        letter-spacing: 5px;
+    }
 </style>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 {% endblock %}
 
 {% block bodycontent%}
-<h2>About us Page</h2>
+
+<div>
+    <div class="w3-content" style="max-width:1100px">
+        <div class="w3-row w3-padding-64" id="about">
+            <div class="w3-col m6 w3-padding-large w3-hide-small"> <img src="https://res.cloudinary.com/demo/image/fetch/https://www.comarch.com/files-com/file_611/grafika_banking.png" class="w3-round w3-image w3-opacity-min"
+                    alt="Image " width="600" height="750"> </div>
+            <div class="w3-col m6 w3-padding-large">
+                <h1 class="w3-center">About C-Bank</h1><br>
+                <h5 class="w3-center">Catering to you since 2022</h5>
+                <p class="w3-large">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dui ipsum,
+                    cursus eget ultrices sit amet, maximus vitae ante. Duis vulputate mi sed arcu cursus feugiat.
+                    Aliquam facilisis magna et dui gravida sollicitudin. Duis facilisis semper lorem, eget ornare sem
+                    mattis consequat. Vivamus eget sapien eget lorem faucibus faucibus et ac arcu. Fusce ullamcorper
+                    condimentum dolor, eget euismod ipsum dapibus quis. Mauris condimentum non sapien quis euismod. Cras
+                    sed ligula eu tellus accumsan dignissim in a tellus. Sed et posuere felis.</p>
+                <p class="w3-large w3-text-grey w3-hide-medium">Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod
+                    temporincididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
 {% endblock %}
 
 {% block scriptcontent %}

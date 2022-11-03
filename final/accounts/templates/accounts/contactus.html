@@ -1,6 +1,21 @@
 {% extends 'base1.html' %}
 {% block stylecontent %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style>
+    body {
+        font-family: "Times New Roman", Georgia, Serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: "Playfair Display";
+        letter-spacing: 5px;
+    }
+
     @import url('https://fonts.googleapis.com/css?family=Slabo+27px');
 
     body {
@@ -11,18 +26,52 @@
         font-family: 'Slabo 27px';
         border-bottom: 1px solid black;
         font-weight: 900;
-        text-align:center;
+        text-align: center;
     }
 
     form ul {
         list-style: none;
+    }
     }
 </style>
 
 {% endblock %}
 
 {% block bodycontent%}
-<h2>Contact us Page</h2>
+
+<div  class="w3-content" style="max-width:1300px" >
+    <div  class="w3-row w3-margin-top w3-padding-top-12" id="contact">
+        <div class="w3-third w3-dark-grey w3-container w3-center " style="height:700px">
+            <div class="w3-padding-64">
+                <h1>Swing By</h1> <br>
+                <p class="w3-opacity">Great vision without great people is irrelevant.</p>
+                <p class="w3-opacity">We are always open to finding the right answers for you.</p>
+            </div>
+            <div>
+                <p class="w3-large ">Visit us at</p>
+                <p class="w3-large ">C Bank, India</p>
+                <p class="w3-large ">+91 1111111111</p>
+                <p class="w3-large ">test@test.com</p>
+            </div>
+        </div>
+        <div class="w3-twothird w3-pale-blue w3-container" style="height:700px">
+            <div class="w3-padding-64 w3-padding-large">
+                <h1 class="w3-text-dark-grey">Contact Us</h1>
+                <p class="w3-text-dark-grey" class="w3-opacity">GET IN TOUCH</p>
+                <form class="w3-container w3-card w3-padding-32 w3-padding-large w3-white" target="_blank">
+                    <div class="w3-section w3-text-grey w3-sans-serif "> <label>Name</label> <input class="w3-input"
+                            style="width:100%;" type="text" required name="Name"> </div>
+                    <div class="w3-section w3-text-grey w3-sans-serif "> <label>Email</label> <input class="w3-input"
+                            style="width:100%;" type="text" required name="Email"> </div>
+                    <div class="w3-section w3-text-grey w3-sans-serif "> <label>Message</label> <input class="w3-input"
+                            style="width:100%;" type="text" required name="Message"> </div> <button type="submit"
+                        disabled
+                        class="w3-button w3-light-blue w3-round-large w3-right w3-hover-blue w3-text-light-grey">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scriptcontent %}

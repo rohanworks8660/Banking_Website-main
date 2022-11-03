@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from sqlalchemy import ForeignKey
+from django.core.validators import RegexValidator
 # Create your models here.
 
 
@@ -30,23 +31,6 @@ class Account_Data(models.Model):
         db_table = 'account'
 
 
-'''    
-class Deposits(models.Model): 
-    Trans_ID = models.AutoField(primary_key=True)
-    Accno = models.ForeignKey(Account, on_delete=models.CASCADE)
-    Amount = models.FloatField()
-    class Meta:
-        db_table = 'deposits'
-        
-class Withdraws(models.Model): 
-    Trans_ID = models.AutoField(primary_key=True)
-    Accno = models.ForeignKey(Account, on_delete=models.CASCADE)
-    Amount = models.FloatField()
-    class Meta:
-        db_table = 'withdraws' 
-'''
-
-
 class Transactions(models.Model):
     Trans_ID = models.AutoField(primary_key=True)
     Accno = models.ForeignKey(Account_Data, on_delete=models.CASCADE)
@@ -68,28 +52,6 @@ class Money_Transfers(models.Model):
 
     class Meta:
         db_table = 'transfers'
-
-
-class ECS_Data(models.Model):
-    ECS_ID = models.AutoField(primary_key=True)
-    Payer_Name = models.CharField(max_length=300)
-    Upper_Limit = models.FloatField()
-    Account = models.ForeignKey(Account_Data, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'ecs'
-
-
-class Bills(models.Model):
-    # id column created implicitly
-    ECS_ID = models.ForeignKey(ECS_Data, on_delete=models.CASCADE)
-    Amount = models.FloatField()
-    Completed = models.BooleanField()
-    
-    class Meta:
-        db_table = 'bills'
-
-from django.core.validators import RegexValidator
 
 class UserInfo(models.Model):
     first_name = models.CharField(max_length=100)

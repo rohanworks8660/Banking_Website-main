@@ -1,5 +1,7 @@
 # sys.path defines paths from which imports can be made
 
+
+
 from sqlalchemy import null
 from profiles.models import Customer_Data, Account_Data, Transactions, UserInfo
 from django.http import HttpResponse
@@ -10,9 +12,8 @@ import random
 import mysql.connector as sql
 
 sys.path.append(os.getcwd()+'/profiles/utils')
-import Classes
-
 # Stores customer obj
+import Classes
 cur_customer = None
 
 
@@ -29,7 +30,7 @@ def display_menu(request):
         request.user.username, request.user.password)
     # Check if customer is a new or existing customer
     cust_details = Customer_Data.objects.filter(Name=user_log_in.username)
-    user_dets = UserInfo.objects.get(username = user_log_in.username)
+    user_dets = UserInfo.objects.get(username=user_log_in.username)
     print("cust_details", user_dets.phone_number)
     if (cust_details):
         print("Existing Customer")
@@ -38,11 +39,15 @@ def display_menu(request):
     else:
         print("Making New Customer")
         customer = Classes.New_Customer(
-            user_log_in, user_log_in.username, user_dets.phone_number , user_dets.email_address)
+            user_log_in, user_log_in.username, user_dets.phone_number, user_dets.email_address)
     print("Customer name:", customer.customer_data.Name)
     cur_customer = customer
-    name=user_dets.first_name+" "+user_dets.fathers_name+" "+user_dets.last_name
-    return render(request, 'profiles/user_account.html', {'customer': customer,"user_dets":user_dets,"name":name})
+    if (cur_customer.accounts):
+            pass  # pop up
+    else:
+        cur_customer.create_account()
+    name = user_dets.first_name+" "+user_dets.fathers_name+" "+user_dets.last_name
+    return render(request, 'profiles/user_account.html', {'customer': customer, "user_dets": user_dets, "name": name})
 
 
 def account_management(request):
@@ -55,14 +60,17 @@ def account_management(request):
 def withdraw(request):
     accounts = cur_customer.accounts
     accnnnnno = int(list(cur_customer.accounts.keys())[0])
-    msg = "<br>Enter a valid account no. and also check for ur balance!</p><br>"
+    acc_num = accnnnnno
+    msg = ""
     if request.method == "POST":
-        acc_num = int(request.POST.get('acc_no'))
-        amount = int(request.POST.get('amount'))
-        print('requestPOST=', acc_num, type(acc_num))
-        #print('account dict:',accounts.keys())
+
+        try:
+            amount = int(request.POST.get('amount'))
+        except:
+            msg += "<br>Please Enter a valid amount"
+            return render(request, 'profiles/withdraw.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg, 'accnnnnno': accnnnnno})
+        print('request POST=', acc_num, type(acc_num))
         if acc_num in accounts:
-            #acc_obj= accounts[acc_num]
             acc_q = Account_Data.objects.get(Accno=acc_num)
             balance = acc_q.Balance
             print("balance:", balance)
@@ -78,17 +86,23 @@ def withdraw(request):
             else:
                 msg = "<td>Not sufficient balance!</td><br>"
         else:
-            msg = "<p>Invalid account number</p><br>"
+            msg += "<p>Invalid account number</p><br>"
     return render(request, 'profiles/withdraw.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg, 'accnnnnno': accnnnnno})
 
 
 def deposit(request):
     accounts = cur_customer.accounts
     acccno = int(list(cur_customer.accounts.keys())[0])
-    msg = "<br>Enter a valid account no. and also check for ur balance!</p><br>"
+    msg = ""
     if request.method == "POST":
-        acc_num = int(request.POST.get('acc_no'))
-        amount = int(request.POST.get('amount'))
+        acc_num = acccno
+
+        try:
+            amount = int(request.POST.get('amount'))
+        except  :
+            msg+="<br>Please Enter a valid amount"
+            return render(request, 'profiles/deposit.html', {'customer': cur_customer, 'accounts': accounts, 'msg': msg, 'acccno': acccno})
+
         print('requestPOST=', acc_num, type(acc_num))
         if acc_num in accounts:
             acc_q = Account_Data.objects.get(Accno=acc_num)
@@ -181,6 +195,12 @@ def get_account_action(request):
         print("Got neither create nor close")
     return redirect('profiles:account_management')
 
+
+# to acc and from acc shld not be same
+# from acc --- withdraw-transfer
+# to acc ----- deposit-transfer
+# add buttons
+
 def money_transfer(request):
     to_accno=0
     amount1=0
@@ -188,14 +208,14 @@ def money_transfer(request):
     acccno = int(list(cur_customer.accounts.keys())[0])
     #global amount1,to_accno
     if request.method == "POST":
-        if(request.POST.get('accc_no')):
+        if(type(request.POST.get('accc_no'))=="int"):
             to_accno = int(request.POST.get('accc_no'))
         else:
-            msg="<br> Enter TO Account No"
-        if(request.POST.get('amount')):
+            msg="<br> Enter valid 'To Account' No "
+        if(type(request.POST.get('amount'))=="int"):
             amount1 = int(request.POST.get('amount'))
         else:
-            msg+="<br>Please Enter the amt"
+            msg+="<br>Please Enter the valid amount"
         obj1=sql.connect(host="localhost", user="root", passwd="root", database='bank_db', auth_plugin='mysql_native_password')
         cursor1=obj1.cursor()
         c1="select * from account"
@@ -231,9 +251,5 @@ def money_transfer(request):
             else:
                 print("Insufficient funds")
                 msg+="<br>Insufficient Balance"
-                    
-        else:
-            print("Invalid Account number")
-            msg+="<br>Invalid ACC No"
         return render(request,"profiles/transfer.html",{"msg":msg,"acccno":acccno})
     return render(request, "profiles/transfer.html",{"acccno":acccno})
