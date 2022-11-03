@@ -9,7 +9,7 @@ from django.core.validators import RegexValidator
 class Customer_Data(models.Model):
     Cust_ID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=200)
-    Phone_no = models.CharField(max_length=10)
+    Phone_no = models.CharField(max_length=17)
     # Fixed length can't be specified. Only max_length can be.
     Email = models.EmailField()
     #Username = models.CharField(max_length=30)

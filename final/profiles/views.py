@@ -76,7 +76,7 @@ def withdraw(request):
             print("balance:", balance)
             if (balance >= amount):
                 trans = Classes.Account(acc_q)
-                trans.create_transaction(amount, "withdraw")
+                trans.create_transaction(amount, "Withdraw")
                 balance -= amount
                 acc_q.Balance = balance
                 print("balance:", acc_q.Balance)
@@ -109,7 +109,7 @@ def deposit(request):
             balance = acc_q.Balance
             print("balance:", balance)
             trans = Classes.Account(acc_q)
-            trans.create_transaction(amount, "deposit")
+            trans.create_transaction(amount, "Deposit")
             balance += amount
             acc_q.Balance = balance
             print("balance:", acc_q.Balance)
@@ -143,18 +143,28 @@ def get_transaction_action(request):
     msg = "filter"
     button_action = request.GET['account_action']
     all_transactions = {}
-    if (button_action == 'withdraw'):
+    if (button_action == 'Withdraw'):
         for acc in accounts:
             transaction = Transactions.objects.filter(
-                Accno_id=int(acc), Type="withdraw")
-            print("withdraw:", transaction)
+                Accno_id=int(acc), Type="Withdraw")
+            print("Withdraw:", transaction)
             all_transactions[acc] = list(transaction)
-    elif (button_action == 'deposit'):
+    elif (button_action == 'Deposit'):
         for acc in accounts:
             transaction = Transactions.objects.filter(
-                Accno_id=int(acc), Type="deposit")
+                Accno_id=int(acc), Type="Deposit")
             all_transactions[acc] = list(transaction)
-    elif (button_action == 'all'):
+    elif (button_action == 'Transfer-Sent'):
+        for acc in accounts:
+            transaction = Transactions.objects.filter(
+                Accno_id=int(acc), Type="Transfer-Sent")
+            all_transactions[acc] = list(transaction)
+    elif (button_action == 'Transfer-Received'):
+        for acc in accounts:
+            transaction = Transactions.objects.filter(
+                Accno_id=int(acc), Type="Transfer-Received")
+            all_transactions[acc] = list(transaction)
+    elif (button_action == 'All'):
         return redirect('profiles:stat_gen')
     print("all_trans:", all_transactions)
     return render(request, 'profiles/stat_gen.html', {'customer': cur_customer, 'accounts': accounts, 'transaction': all_transactions, 'msg': msg})
@@ -202,21 +212,29 @@ def get_account_action(request):
 # add buttons
 
 def money_transfer(request):
+    obj1=sql.connect(host="localhost", user="root", passwd="root", database='bank_db', auth_plugin='mysql_native_password')
+    acccno = int(list(cur_customer.accounts.keys())[0])
     to_accno=0
     amount1=0
     msg=""
-    acccno = int(list(cur_customer.accounts.keys())[0])
-    #global amount1,to_accno
+    from_accno=acccno
+
     if request.method == "POST":
-        if(type(request.POST.get('accc_no'))=="int"):
+
+
+        try:
             to_accno = int(request.POST.get('accc_no'))
-        else:
-            msg="<br> Enter valid 'To Account' No "
-        if(type(request.POST.get('amount'))=="int"):
+        except  :
+            msg+="<br>Please Enter a valid  To Acc No"
+            return render(request,"profiles/transfer.html",{"msg":msg,"acccno":acccno})
+        try:
             amount1 = int(request.POST.get('amount'))
-        else:
+        except  :
             msg+="<br>Please Enter the valid amount"
-        obj1=sql.connect(host="localhost", user="root", passwd="root", database='bank_db', auth_plugin='mysql_native_password')
+            return render(request,"profiles/transfer.html",{"msg":msg,"acccno":acccno})
+
+
+        
         cursor1=obj1.cursor()
         c1="select * from account"
         cursor1.execute(c1)
@@ -235,21 +253,51 @@ def money_transfer(request):
             f=l1.index(from_acc)
             t=l1.index(to_acc)
             if l2[f]>=amount:
-                l2[f]=l2[f]-amount
-                l2[t]+=amount
-                print("Amount transferred successfully")
-                cursor2=obj1.cursor()
-                cursor3=obj1.cursor()
-                c1="UPDATE account SET balance={} where accno= {};".format(l2[f],l1[f])
-                cursor2.execute(c1)
-                obj1.commit()
-
-                c2="UPDATE account SET balance={} where accno= {};".format(l2[t],l1[t])
-                cursor3.execute(c2)
-                obj1.commit()
+                withdraw_transfer(amount)
+                deposit_transfer(amount,to_acc)
+                # l2[f]=l2[f]-amount
+                # l2[t]+=amount
+                # print("Amount transferred successfully")
+                # cursor2=obj1.cursor()
+                # cursor3=obj1.cursor()
+                # c1="UPDATE account SET balance={} where accno= {};".format(l2[f],l1[f])
+                # cursor2.execute(c1)
+                # obj1.commit()
+                # c2="UPDATE account SET balance={} where accno= {};".format(l2[t],l1[t])
+                # cursor3.execute(c2)
+                # obj1.commit()
                 msg+="<br>Transaction Successfull"
             else:
                 print("Insufficient funds")
                 msg+="<br>Insufficient Balance"
         return render(request,"profiles/transfer.html",{"msg":msg,"acccno":acccno})
     return render(request, "profiles/transfer.html",{"acccno":acccno})
+
+
+def withdraw_transfer(amount):
+    acc_num = int(list(cur_customer.accounts.keys())[0])
+    acc_q = Account_Data.objects.get(Accno=acc_num)
+    balance = acc_q.Balance
+    print("balance:", balance)
+    if (balance >= amount):
+        trans = Classes.Account(acc_q)
+        trans.create_transaction(amount, "Transfer-Sent")
+        balance -= amount
+        acc_q.Balance = balance
+        print("balance:", acc_q.Balance)
+        acc_q.save()
+        cur_customer.accounts[acc_num].account_details.Balance -= amount
+
+
+def deposit_transfer(amount,to_acc):
+    acc_num=to_acc
+    acc_q = Account_Data.objects.get(Accno=acc_num)
+    balance = acc_q.Balance
+    print("balance:", balance)
+    trans = Classes.Account(acc_q)
+    trans.create_transaction(amount, "Transfer-Received")
+    balance += amount
+    acc_q.Balance = balance
+    print("balance:", acc_q.Balance)
+    acc_q.save()
+
