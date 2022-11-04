@@ -1,21 +1,27 @@
 # Banking Website
 The Online Bank System has the following functionalities :
-  1. Login/Logout
-       Login as existing user or new user .
-       Existing user logs in with username and password.
-       While new user creates a username and password.
+- Login/Logout
+     -  Login as existing user or new user .
+     -  Existing user logs in with username and password.
+     -  While new user creates a username and password.
 
-  2. Account Management
-       Create or delete accounts ,View account details , account balance , view number of accounts of each user and their respective details.
-       For new users , on account creation - a random account number is generated and provided.
+- Home Page – active navbar with various tabs that redirect to their respective pages.
 
-  3. Transaction Management
-       Withdraw, Deposit
+- Services made available  :-
+  - Check User Balance
+  - Deposit Money
+  - Withdraw Money
+  - Transaction History
+  - Transfer Money (to different account)
+  
+- Logout -  successfully upon completion of all required tasks.
 
-  4. Statement Generation 
-       based on specified criteria (credit transactions, debit transactions over the given period)
+- Account Management : For new users , on account creation - a random account number is generated and provided.
 
-  5. Electronic Clearance Service
+
+- Statement Generation : based on specified criteria (credit transactions, debit transactions)
+
+
 ---------------------
 ##  Steps to follow while setting up first time:
 
@@ -41,6 +47,5 @@ The Online Bank System has the following functionalities :
 5. Go to browser and run url - Online Bank -  http://127.0.0.1:8000/
 
 ---------------------
-
 
 
